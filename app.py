@@ -6,6 +6,17 @@ from keras.models import load_model
 import requests
 from bs4 import BeautifulSoup
 
+from hwrd import download_image
+# Example usage
+image_name_to_download = "img.jpg"
+destination_path_to_save = "saved/img.jpg"
+
+if download_image(image_name_to_download, destination_path_to_save):
+    print(f"Image downloaded successfully to {destination_path_to_save}")
+else:
+    print(f"Image {image_name_to_download} does not exist in Firebase Storage.")
+
+
 model = load_model('FV.h5')
 labels = {0: 'apple', 1: 'banana', 2: 'beetroot', 3: 'bell pepper', 4: 'cabbage', 5: 'capsicum', 6: 'carrot',
           7: 'cauliflower', 8: 'chilli pepper', 9: 'corn', 10: 'cucumber', 11: 'eggplant', 12: 'garlic', 13: 'ginger',
