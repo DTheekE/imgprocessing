@@ -49,7 +49,7 @@ def processed_img(img_path):
 
 
 def run():
-    st.title("Fruits🍍-Vegetable Classification")
+    st.title("Stay-Fit ImgProcessing BackEnd")
     img_file = st.file_uploader("Choose an Image", type=["jpg", "png"])
     if img_file is not None:
         img = Image.open(img_file).resize((250, 250))
