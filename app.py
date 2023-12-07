@@ -11,14 +11,6 @@ from bs4 import BeautifulSoup
 import firebase_admin
 from firebase_admin import credentials, storage,  initialize_app
 
-# Initialize Firebase with your own credentials JSON file
-cred = credentials.Certificate("credentials.json")
-if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred, {'storageBucket': 'stayfit-efe50.appspot.com'}, name='stayfit')
-
-
-from hwrd import download_image
-
 from hwrd import download_image
 
 image_name_to_download = "img.jpg"
@@ -126,4 +118,9 @@ def run():
     st.image(img_file_path, use_column_width=False)
 
 if __name__ == "__main__":
+    # Initialize Firebase with your own credentials JSON file
+    cred = credentials.Certificate("credentials.json")
+    if not firebase_admin._apps:
+        firebase_admin.initialize_app(cred, {'storageBucket': 'stayfit-efe50.appspot.com'}, name='stayfit')
+
     run()
