@@ -1,3 +1,6 @@
+import csv
+import dbm
+import os
 import streamlit as st
 from PIL import Image
 from keras.preprocessing.image import img_to_array
@@ -5,6 +8,7 @@ import numpy as np
 from keras.models import load_model
 import requests
 from bs4 import BeautifulSoup
+from firebase_admin import credentials, storage
 
 from hwrd import download_image
 
@@ -63,6 +67,29 @@ def processed_img(img_path):
         st.error("Error processing image")
         print(e)
         return None
+def write_to_csv(csv_file_path, data):
+    try:
+        with open(csv_file_path, mode='w', newline='') as file:
+            writer = csv.DictWriter(file, fieldnames=["result", "calories"])
+            writer.writeheader()
+            writer.writerow(data)
+    except Exception as e:
+        st.error(f"Error writing to CSV file: {str(e)}")
+
+def upload_csv_to_storage(csv_file_path):
+    try:
+        # Get a reference to the Firebase Storage bucket
+        bucket = storage.bucket()
+
+        # Specify the path to the CSV file in the storage bucket
+        storage_path = f"results/{os.path.basename(csv_file_path)}"
+
+        # Upload the CSV file to Firebase Storage
+        blob = bucket.blob(storage_path)
+        blob.upload_from_filename(csv_file_path)
+        print(f"CSV file uploaded successfully to {storage_path}")
+    except Exception as e:
+        st.error(f"Error uploading CSV file to Firebase Storage: {str(e)}")    
 
 def run():
     
@@ -77,6 +104,15 @@ def run():
         cal = fetch_calories(result)
         if cal:
             st.warning(f'**{cal} (100 grams)**')
+
+            # Write to CSV file
+            csv_data = {"result": result, "calories": cal}
+            csv_file_path = "results.csv"
+            write_to_csv(csv_file_path, csv_data)
+
+            # Upload CSV file to Firebase Storage
+            upload_csv_to_storage(csv_file_path)
+            
 
     st.image(img_file_path, use_column_width=False)
 
