@@ -5,7 +5,8 @@ print("Current working directory:", os.getcwd())
 
 # Initialize Firebase with your own credentials JSON file
 cred = credentials.Certificate("credentials.json")
-firebase_admin.initialize_app(cred, {'storageBucket': 'stayfit-efe50.appspot.com'})
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred, {'storageBucket': 'stayfit-efe50.appspot.com'}, name='stayfit')
 
 def download_image(image_name, destination_path):
     try:
@@ -29,10 +30,3 @@ def download_image(image_name, destination_path):
 
 
 # Example usage
-image_name_to_download = "img.jpg"
-destination_path_to_save = "saved/img.jpg"
-
-if download_image(image_name_to_download, destination_path_to_save):
-    print(f"Image downloaded successfully to {destination_path_to_save}")
-else:
-    print(f"Image {image_name_to_download} does not exist in Firebase Storage.")
