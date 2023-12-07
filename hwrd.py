@@ -29,7 +29,7 @@ def download_image(image_name, destination_path):
 
 
 # Example usage
-image_name_to_download = "img22.jpg"
+image_name_to_download = "img.jpg"
 destination_path_to_save = "saved/img.jpg"
 
 if download_image(image_name_to_download, destination_path_to_save):
