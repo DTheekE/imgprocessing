@@ -10,7 +10,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # Initialize Firebase (replace 'path/to/your/credentials.json' with the path to your Firebase credentials file)
-cred = credentials.Certificate("/workspaces/imgprocessing/credentials.json")
+cred = credentials.Certificate("imgprocessing/credentials.json")
 firebase_admin.initialize_app(cred, {'storageBucket': 'your-firebase-app-id.appspot.com'})
 
 # Load Keras model
